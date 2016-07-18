@@ -1,0 +1,31 @@
+nginx:
+  build: .
+  container_name: template_nginx
+  dockerfile: buildfiles/Dockerfile.nginx
+  links:
+    - php:fpm
+  ports:
+    - 80:80
+
+php:
+  build: .
+  container_name: template_php
+  dockerfile: buildfiles/Dockerfile.php56-fpm
+  links:
+    - mariadb
+  volumes:
+    - ./site:/var/www/site
+  environment:
+    APP_DEBUG: "true"
+    APP_ENV: "local"
+
+mariadb:
+  image: mariadb
+  container_name: template_mariadb
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_USER: dev
+    MYSQL_PASSWORD: password
+    MYSQL_DATABASE: myapp
