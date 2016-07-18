@@ -2,6 +2,8 @@ nginx:
   build: .
   container_name: template_nginx
   dockerfile: buildfiles/Dockerfile.nginx
+  volumes:
+    - ./logs/nginx/:/var/log/nginx
   links:
     - php:fpm
   ports:
